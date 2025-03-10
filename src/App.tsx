@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Content from "./components/content"
+import { TodoModel } from './models/todoModel';
+import SingleTodo from './components/singleTodo';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './state/store';
+import { complete, remove } from './state/eventHandler/todoEvent';
 
-function App() {
+const App : React.FC = () => {
+  const todos = useSelector((state: RootState)=> state['todo-slice'].todos);
+  const dispatch = useDispatch();
+  const[todo, setTodo] = useState("");
+  // const [todos, setTodos] = useState<TodoModel[]>([]);
+  const handleSubmit =(e: React.FormEvent) =>{
+    e.preventDefault();
+    if(todo === ""){
+      return;
+    }
+    dispatch({
+      type: "todo-slice/add",
+      payload: { id: Date.now(), todo, completed: false },
+    });
+    setTodo("");
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col items-center ">
+      <Content todo={todo} setTodo={setTodo} onSubmit={handleSubmit} />
+      <div className="flex justify-between flex-wrap w-4/5 max-w-2xl">
+        {todos.map((todo) => (
+          <SingleTodo
+            key={todo.id}
+            todo={todo}
+            todos={todos}
+            onDelete={() => dispatch(remove( todo.id ))}
+            onComplete={() => dispatch(complete(todo.id))}
+          />
+        ))}
+      </div>
     </div>
   );
 }
