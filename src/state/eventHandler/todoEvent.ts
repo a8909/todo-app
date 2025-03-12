@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import { TodoModel } from '../../models/todoModel';
 
 
+
 const todoSlice = createSlice({
     name: 'todo-slice',
     initialState : {todos : <TodoModel[]> []},
@@ -13,18 +14,16 @@ const todoSlice = createSlice({
         add : (state, action) =>{
             state.todos.push(action.payload);
         },
-        onEdit : (state, action) =>{
+        onEdit : (state, action: {payload : {id: number, value: string}}) =>{
             const {id, value} = action.payload;
-            state.todos = state.todos.map((todo) =>
+             state.todos = state.todos.map((todo) =>
               todo.id === id ? { ...todo, todo: value } : todo
             );
-
         },
         complete : (state, action: { payload : number}) =>{
             state.todos =  state.todos.map((todo) =>
                 todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
             );
-
         }
     }
 })

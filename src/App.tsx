@@ -27,7 +27,7 @@ const App : React.FC = () => {
   return (
     <div className="flex flex-col items-center ">
       <Content todo={todo} setTodo={setTodo} onSubmit={handleSubmit} />
-      <div className="flex justify-between flex-wrap w-4/5 max-w-2xl">
+      <div className="flex justify-center flex-col flex-wrap w-4/5 max-w-2xl">
         {todos.map((todo) => (
           <SingleTodo
             key={todo.id}

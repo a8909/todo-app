@@ -5,7 +5,6 @@ import { onEdit } from "../state/eventHandler/todoEvent";
 interface props {
   todo: TodoModel;
   todos: TodoModel[];
-  // setTodos: React.Dispatch<React.SetStateAction<TodoModel[]>>;
   onDelete: (id: number) => void;
   onComplete: (id: number) => void;
 }
@@ -17,7 +16,7 @@ const SingleTodo: React.FC<props> = ({ todo, onDelete, onComplete }) => {
 
   const onEditsubmit = (e: React.FormEvent, id: number) => {
     e.preventDefault();
-    dispatch(onEdit({id, value: editing}))
+    dispatch(onEdit({ id, value: editing }));
     setEdit(false);
   };
 
@@ -28,7 +27,7 @@ const SingleTodo: React.FC<props> = ({ todo, onDelete, onComplete }) => {
   return (
     <form className="flex justify-between items-center mb-3 mt-3 p-2 bg-yellow-100 rounded-sm" onSubmit={(e)=> onEditsubmit(e, todo.id)}>
       {edit ? (
-        <input ref={InputRef} value={editing} onChange={(e) => setEditing(e.target.value)} />
+        <input className="w-full mr-3" ref={InputRef} value={editing} onChange={(e) => setEditing(e.target.value)} />
       ) : (
         <div className="flex-1 w-10">{todo.todo}</div>
       )}
